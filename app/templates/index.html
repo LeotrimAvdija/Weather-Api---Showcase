@@ -1,0 +1,82 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Nes Weather: Live Weather</title>
+    <!-- Favicons -->
+    <link href="{% static 'assets/img/weather.jpg' %}" rel="icon">
+    <link href="{% static 'assets/img/weather.jpg' %}" rel="apple-touch-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 style="font-family: 'Arial', sans-serif; font-size: 36px; color: #333;">Weather Detector</h1>
+        </div>
+        <div class="search-container" style="margin: 20px 0;">
+            <form action="" method="post">
+                {% csrf_token %}
+                <input type="text" placeholder="Enter location..." name="search" id="input1" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px; font-family: 'Arial', sans-serif; font-size: 16px;">
+                <input id="search" type="submit" value="Search" style="background-color: #4CAF50; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-family: 'Arial', sans-serif; font-size: 18px;">
+            </form>
+        </div>
+        <div class="weather-parameters" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+            <div class="weather-parameter" style="background-color: #f0f0f0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin: 10px 0; padding: 15px; width: calc(50% - 10px); font-family: 'Arial', sans-serif; text-align: center;">
+                <h4 style="font-size: 18px; margin-bottom: 5px; color: #333;">Humidity</h4>
+                <p style="font-size: 20px; color: #00aaff; font-weight: bold;">{{humidity}}%</p>
+            </div>
+            <div class="weather-parameter" style="background-color: #f0f0f0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin: 10px 0; padding: 15px; width: calc(50% - 10px); font-family: 'Arial', sans-serif; text-align: center;">
+                <h4 style="font-size: 18px; margin-bottom: 5px; color: #333;">Wind</h4>
+                <p style="font-size: 20px; color: #00aaff; font-weight: bold;">{{speed}} km/h</p>
+            </div>
+            <div class="weather-parameter" style="background-color: #f0f0f0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin: 10px 0; padding: 15px; width: calc(50% - 10px); font-family: 'Arial', sans-serif; text-align: center;">
+                <h4 style="font-size: 18px; margin-bottom: 5px; color: #333;">Clouds</h4>
+                <p style="font-size: 20px; color: #00aaff; font-weight: bold;">{{clouds}}% {{Final}}</p>
+            </div>
+            <div class="weather-parameter" style="background-color: #f0f0f0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin: 10px 0; padding: 15px; width: calc(50% - 10px); font-family: 'Arial', sans-serif; text-align: center;">
+                <h4 style="font-size: 18px; margin-bottom: 5px; color: #333;">Max Temperature</h4>
+                <p style="font-size: 20px; color: #00aaff; font-weight: bold;">{{max_temp}}°C</p>
+            </div>
+
+            <div class="weather-parameter" style="background-color: #f0f0f0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin: 10px 0; padding: 15px; width: calc(50% - 10px); font-family: 'Arial', sans-serif; text-align: center;">
+                <h4 style="font-size: 18px; margin-bottom: 5px; color: #333;">Min Temperature</h4>
+                <p style="font-size: 20px; color: #00aaff; font-weight: bold;">{{min_temp}}°C</p>
+            </div>
+
+
+            <div class="weather-parameter" style="background-color: #f0f0f0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin: 10px 0; padding: 15px; width: calc(50% - 10px); font-family: 'Arial', sans-serif; text-align: center;">
+                <h4 style="font-size: 18px; margin-bottom: 5px; color: #333;">Temperature</h4>
+                <p style="font-size: 20px; color: #00aaff; font-weight: bold;">{{temp}}°C</p>
+            </div>
+
+            <div class="weather-parameter" style="background-color: #f0f0f0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin: 10px 0; padding: 15px; width: calc(50% - 10px); font-family: 'Arial', sans-serif; text-align: center;">
+                <h4 style="font-size: 18px; margin-bottom: 5px; color: #333;">Feels like</h4>
+                <p style="font-size: 20px; color: #00aaff; font-weight: bold;">{{feels_like}}°C</p>
+            </div>
+            <div class="weather-parameter" style="background-color: #f0f0f0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin: 10px 0; padding: 15px; width: calc(50% - 10px); font-family: 'Arial', sans-serif; text-align: center;">
+                <h4 style="font-size: 18px; margin-bottom: 5px; color: #333;">Country Code</h4>
+                <p style="font-size: 20px; color: #00aaff; font-weight: bold;">{{sys}}</p>
+            </div>
+            <div class="weather-parameter" style="background-color: #f0f0f0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin: 10px 0; padding: 15px; width: calc(50% - 10px); font-family: 'Arial', sans-serif; text-align: center;">
+                <h4 style="font-size: 18px; margin-bottom: 5px; color: #333;">Pressure</h4>
+                <p style="font-size: 20px; color: #00aaff; font-weight: bold;">{{pressure}} Bar</p>
+            </div>
+            <div class="weather-parameter" style="background-color: #f0f0f0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin: 10px 0; padding: 15px; width: calc(50% - 10px); font-family: 'Arial', sans-serif; text-align: center;">
+                <h4 style="font-size: 18px; margin-bottom: 5px; color: #333;">Latitude</h4>
+                <p style="font-size: 20px; color: #00aaff; font-weight: bold;">{{lat}}</p>
+            </div>
+            <div class="weather-parameter" style="background-color: #f0f0f0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin: 10px 0; padding: 15px; width: calc(50% - 10px); font-family: 'Arial', sans-serif; text-align: center;">
+                <h4 style="font-size: 18px; margin-bottom: 5px; color: #333;">Longitude</h4>
+                <p style="font-size: 20px; color: #00aaff; font-weight: bold;">{{lon}}</p>
+            </div>
+        </div>
+        <div class="footer" style="background-color: #4CAF50; border-radius: 0 0 8px 8px; padding: 10px 0; font-family: 'Arial', sans-serif;">
+            <p style="color: #fff; font-size: 14px; text-align: center;">&copy; 2023. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>
